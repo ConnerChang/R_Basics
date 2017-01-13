@@ -1,5 +1,6 @@
 .DS_Store
 datascienceandr/
+private/
 # History files
 .Rhistory
 .Rapp.history
