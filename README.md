@@ -16,6 +16,10 @@ https://hackmd.io/GYDgDArAnARgzARgLQBYDGATFqIpEqAdgxiTWAFM0oQ9g48g
 
 https://hackmd.io/CwZg7AHAxhBsAmBaKBDeBGRwwDMeIE5YUpERgCxZsCcAjWOoA
 
+## Using R with Relational Database
+
+https://hackmd.io/MYFgZgbBCMAcDsBaAJrApgQ0SaICciARsAKxiKwAMlEeEaYaATJckA
+
 ## Miscellaneous
 
 https://hackmd.io/MwdgRgbMCmCcCMBaaBDYAORAWEsAMi6eAxgGbITR5bUoCsxaQA
