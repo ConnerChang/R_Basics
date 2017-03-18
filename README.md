@@ -1,6 +1,6 @@
 # R Basics
 
-## Data Strctures in R
+## Data Structures in R
 
 https://hackmd.io/EwdgZghsDGCmBsBaWEBGAWR72xIgnAKwgAMiAJuCmAIzEQ35A
 
