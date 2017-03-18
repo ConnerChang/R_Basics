@@ -8,7 +8,6 @@
 #' ---
 
 #+ include=FALSE
-# set root dir when rendering
 knitr::opts_chunk$set(eval = FALSE)
 
 #' [鉅亨網](http://www.cnyes.com/twstock/ps_historyprice/2330.htm)
