@@ -16,3 +16,4 @@ vignette: >
 1. [PChome](pchome_fill_in.html)
 2. [鉅亨網](cnyes_fill_in.html)
 3. [台灣證券交易所](twse_fill_in.html)
+4. [台灣彩券](twlottery.html)
