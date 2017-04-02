@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2017-03-07" />
+<meta name="date" content="2017-03-26" />
 
 <title>台灣證券交易所_個股日本益比、殖利率及股價淨值比</title>
 
@@ -117,7 +117,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">台灣證券交易所_個股日本益比、殖利率及股價淨值比</h1>
-<h4 class="date"><em>2017-03-07</em></h4>
+<h4 class="date"><em>2017-03-26</em></h4>
 
 </div>
 
@@ -126,7 +126,10 @@ $(document).ready(function () {
 <li><a href="#load-packages">Load Packages</a></li>
 <li><a href="#get-and-parse-data">Get and parse Data</a></li>
 <li><a href="#clean-data">Clean data</a></li>
-<li><a href="#construct-a-crawler-function-with-error-handler">Construct a crawler function with error handler</a></li>
+<li><a href="#construct-a-crawler-function-with-error-handler">Construct a crawler function with error handler</a><ul>
+<li><a href="#fill-in">Fill In</a></li>
+<li><a href="#answer">Answer</a></li>
+</ul></li>
 <li><a href="#notes">Notes</a></li>
 </ul>
 </div>
@@ -175,8 +178,10 @@ dat[, 3:ncol(dat)] &lt;- sapply(dat[, 3:ncol(dat)],
                                  as.double(x)
                              })</code></pre>
 </div>
-<div id="construct-a-crawler-function-with-error-handler" class="section level2">
+<div id="construct-a-crawler-function-with-error-handler" class="section level2 tabset">
 <h2>Construct a crawler function with error handler</h2>
+<div id="fill-in" class="section level3">
+<h3>Fill In</h3>
 <pre class="r"><code>get_twse &lt;- function(&lt;fill_in&gt;, &lt;fill_in&gt;, &lt;fill_in&gt;) {
     url &lt;- &quot;http://www.twse.com.tw/ch/trading/exchange/BWIBBU/BWIBBU_d.php&quot;
     
@@ -186,38 +191,38 @@ dat[, 3:ncol(dat)] &lt;- sapply(dat[, 3:ncol(dat)],
    
     tryCatch({
     # set form data
-    form &lt;- list(input_date = paste(year, month, day, sep = &quot;/&quot;),
-                 select2 = &quot;ALL&quot;,
-                 order = &quot;STKNO&quot;,
-                 login_btn = &quot;%ACd%B8%DF&quot;)
-    # make a POST request
-    res_p &lt;- POST(url = url,
-                  body = form,
-                  encode = &quot;form&quot;)
-    # get and parse data
-    if (.Platform$OS.type == &quot;unix&quot;) {
-        dat &lt;- res_p %&gt;% 
-            content(encoding = 'big-5') %&gt;%
-            html_table(fill = TRUE) %&gt;% 
-            .[[8]] %&gt;% 
-            .[-1, ] %&gt;% # remove first row 
-            `colnames&lt;-`(c('id','company','PER','DY','PBR'))
-    } else if (.Platform$OS.type == &quot;windows&quot;) {# html_table() doesn't work on Windows
-        dat &lt;- res_p %&gt;% 
-            content(as = &quot;text&quot;, encoding = 'big-5') %&gt;%
-            read_html(encoding = &quot;UTF-8&quot;) %&gt;%
-            as.character() %&gt;% 
-            XML::readHTMLTable(header = TRUE, encoding = &quot;UTF-8&quot;) %&gt;% 
-            .[[8]] %&gt;% 
-            `colnames&lt;-`(c('id','company','PER','DY','PBR'))
-    }
-    # convert data type from character to double
-    dat[, 3:ncol(dat)] &lt;- sapply(dat[, 3:ncol(dat)], 
-                                 function(x){
-                                     x &lt;- gsub(&quot;-&quot;, &quot;0&quot;, x)
-                                     as.double(x)
-                                 })
-    return(dat)
+        form &lt;- list(input_date = paste(year, month, day, sep = &quot;/&quot;),
+                     select2 = &quot;ALL&quot;,
+                     order = &quot;STKNO&quot;,
+                     login_btn = &quot;%ACd%B8%DF&quot;)
+        # make a POST request
+        res_p &lt;- POST(url = url,
+                      body = form,
+                      encode = &quot;form&quot;)
+        # get and parse data
+        if (.Platform$OS.type == &quot;unix&quot;) {
+            dat &lt;- res_p %&gt;% 
+                content(encoding = 'big-5') %&gt;%
+                html_table(fill = TRUE) %&gt;% 
+                .[[8]] %&gt;% 
+                .[-1, ] %&gt;% # remove first row 
+                `colnames&lt;-`(c('id','company','PER','DY','PBR'))
+        } else if (.Platform$OS.type == &quot;windows&quot;) {# html_table() doesn't work on Windows
+            dat &lt;- res_p %&gt;% 
+                content(as = &quot;text&quot;, encoding = 'big-5') %&gt;%
+                read_html(encoding = &quot;UTF-8&quot;) %&gt;%
+                as.character() %&gt;% 
+                XML::readHTMLTable(header = TRUE, encoding = &quot;UTF-8&quot;) %&gt;% 
+                .[[8]] %&gt;% 
+                `colnames&lt;-`(c('id','company','PER','DY','PBR'))
+        }
+        # convert data type from character to double
+        dat[, 3:ncol(dat)] &lt;- sapply(dat[, 3:ncol(dat)], 
+                                     function(x){
+                                         x &lt;- gsub(&quot;-&quot;, &quot;0&quot;, x)
+                                         as.double(x)
+                                     })
+        return(dat)
     }, error = function(cond) {
         #  return NULL if the error &quot;subscript out of bounds&quot; happens
         if (cond$call == &quot;.[[8]]&quot;) { 
@@ -226,6 +231,59 @@ dat[, 3:ncol(dat)] &lt;- sapply(dat[, 3:ncol(dat)],
         }
     })
 }</code></pre>
+</div>
+<div id="answer" class="section level3">
+<h3>Answer</h3>
+<pre class="r"><code>get_twse &lt;- function(year, month, day) {
+    url &lt;- &quot;http://www.twse.com.tw/ch/trading/exchange/BWIBBU/BWIBBU_d.php&quot;
+    
+    # month and day are must of two digits, e.g., &quot;2&quot; -&gt; &quot;02&quot;
+    month &lt;- stringr::str_pad(month, 2, pad = &quot;0&quot;)
+    day &lt;- stringr::str_pad(day, 2, pad = &quot;0&quot;)
+    
+    tryCatch({
+        # set form data
+        form &lt;- list(input_date = paste(year, month, day, sep = &quot;/&quot;),
+                     select2 = &quot;ALL&quot;,
+                     order = &quot;STKNO&quot;,
+                     login_btn = &quot;%ACd%B8%DF&quot;)
+        # make a POST request
+        res_p &lt;- POST(url = url,
+                      body = form,
+                      encode = &quot;form&quot;)
+        # get and parse data
+        if (.Platform$OS.type == &quot;unix&quot;) {
+            dat &lt;- res_p %&gt;% 
+                content(encoding = 'big-5') %&gt;%
+                html_table(fill = TRUE) %&gt;% 
+                .[[8]] %&gt;% 
+                .[-1, ] %&gt;% # remove first row 
+                `colnames&lt;-`(c('id','company','PER','DY','PBR'))
+        } else if (.Platform$OS.type == &quot;windows&quot;) {# html_table() doesn't work on Windows
+            dat &lt;- res_p %&gt;% 
+                content(as = &quot;text&quot;, encoding = 'big-5') %&gt;%
+                read_html(encoding = &quot;UTF-8&quot;) %&gt;%
+                as.character() %&gt;% 
+                XML::readHTMLTable(header = TRUE, encoding = &quot;UTF-8&quot;) %&gt;% 
+                .[[8]] %&gt;% 
+                `colnames&lt;-`(c('id','company','PER','DY','PBR'))
+        }
+        # convert data type from character to double
+        dat[, 3:ncol(dat)] &lt;- sapply(dat[, 3:ncol(dat)], 
+                                     function(x){
+                                         x &lt;- gsub(&quot;-&quot;, &quot;0&quot;, x)
+                                         as.double(x)
+                                     })
+        return(dat)
+    }, error = function(cond) {
+        #  return an empty data frame if the error &quot;subscript out of bounds&quot; happens
+        if (cond$call == &quot;.[[8]]&quot;) { 
+            message(sprintf(&quot;No data on %s/%s/%s&quot;, year, month, day))
+            return(data.frame())
+        }
+    })
+}</code></pre>
+</div>
 </div>
 <div id="notes" class="section level2">
 <h2>Notes</h2>
