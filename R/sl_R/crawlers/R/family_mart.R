@@ -111,3 +111,7 @@ get_family_stores <- function(city, area){
     
     return(dat)
 }
+
+#' ## Notes
+#' 1. Use httr to set request headers
+#' 2. httr provides other functions to set request headers: 1) `set_cookies()` 2. `user_agent()`
