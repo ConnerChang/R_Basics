@@ -1,0 +1,82 @@
+---
+title: "Rmarkdown Example"
+author: "Document Author"
+date: "`r Sys.Date()`"
+output:
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	collapse = TRUE,
+	fig.align = "center",
+	comment = NA
+)
+options(digits = 4)
+```
+
+```{r import packages, echo = FALSE}
+library(magrittr)
+library(dplyr)
+library(ggplot2)
+library(DT)
+library(plotly)
+library(rpart)
+library(partykit)
+```
+
+# Diamonds Dataset
+使用 `knitr::kable()` 展示靜態圖表。
+```{r}
+knitr::kable(head(diamonds))
+```
+
+使用 `DT::datatable()` 展示動態圖表。
+
+```{r}
+DT::datatable(diamonds)
+```
+
+# Exploratory Data Analysis 
+
+```{r}
+knitr::kable(summary(diamonds))
+```
+
+```{r}
+diamonds %>% 
+    group_by(cut) %>% 
+    summarise(mean_depth = mean(depth)) %>% 
+    knitr::kable()
+```
+```{r}
+# create a new variable "mean_depth"
+mean_depth <- diamonds %>% 
+            group_by(cut) %>% 
+            summarise(mean_depth = mean(depth))
+```
+
+The average depth of "Very Good" cut diamonds is `r mean_depth %>% filter(cut == "Very Good") %>% select(mean_depth)`.
+
+# Data Visualization
+```{r}
+g <- mean_depth %>% 
+    ggplot(aes(x = cut, y = mean_depth)) +
+    geom_bar(stat = "identity")
+g
+```
+
+```{r, echo=FALSE}
+#  make the plot interactive
+ggplotly(g)
+```
+
+# Data Modeling
+```{r, fig.width=10}
+tree_model <- rpart(cut ~ depth, data = diamonds)
+plot(as.party(tree_model))
+```

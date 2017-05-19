@@ -1,6 +1,6 @@
 # the first way 
-l <- lapply(3320:3340, get_stock_price)
-setNames(l)
+l <- lapply(3320:3321, get_stock_price)
+l <- setNames(l, 3320:3321)
 result <- dplyr::bind_rows(l, .id = "stock")
 
 # another way
