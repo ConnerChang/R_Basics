@@ -1,0 +1,43 @@
+---
+title: "Dashboard Example-mtcars"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+# load data in 'global' chunk so it can be shared by all users of the dashboard
+library(datasets)
+library(ggplot2)
+mtcars2 <- mtcars[, c("mpg", "cyl", "wt")]
+```
+
+
+Column {data-width=650}
+---
+
+### Miles Per Gallon vs. Weight {data-width=600}
+
+```{r}
+renderPlot({
+    ggplot(mtcars2, aes(wt, mpg)) + geom_point()
+})
+```
+
+### Miles Per Gallon and Cylinders
+
+```{r}
+renderPlot({
+   ggplot(mtcars2, aes(factor(cyl), mpg))  + geom_boxplot()
+})
+```
+
+Column {data-width=350}
+---
+
+### Car Details {data-width=400}
+
+```{r}
+renderTable(mtcars2)
+```
