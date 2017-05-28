@@ -25,7 +25,7 @@ selectedData <- reactive({
 Column {data-width=650}
 ---
 
-### Miles Per Gallon vs. Weight {data-width=600}
+### Miles Per Gallon vs. Weight 
 
 ```{r}
 renderPlotly({
@@ -44,7 +44,7 @@ renderPlotly({
 Column {data-width=350}
 ---
 
-### Car Details {data-width=400}
+### Car Details
 
 ```{r}
 renderDataTable(selectedData())

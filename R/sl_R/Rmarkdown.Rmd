@@ -61,7 +61,6 @@ mean_depth <- diamonds %>%
 ```
 
 The average depth of "Very Good" cut diamonds is `r mean_depth %>% filter(cut == "Very Good") %>% select(mean_depth)`.
-
 # Data Visualization
 ```{r}
 g <- mean_depth %>% 
